@@ -1,6 +1,6 @@
 import pygame
 import sys
-import random
+from random import randrange
 
 size = width, height = 800, 700
 black = 0, 0, 0
@@ -42,7 +42,7 @@ def menu():
                 x, y = event.pos
                 if x >= start_button.x and x <= start_button.x + start_button.width and y >= start_button.y and y <= start_button.y + start_button.height:
                     gameover = True
-                    #вызов игры
+                    puzzle()
             elif event.type == pygame.MOUSEMOTION:
                 x, y = event.pos
                 if x >= start_button.x and x <= start_button.x + start_button.width and y >= start_button.y and y <= start_button.y + start_button.height:
@@ -60,9 +60,60 @@ def menu():
             pygame.time.wait(10)
     sys.exit()
 
+def puzzle():
+    sq = 800
+    cell = 25
+    SIZE = [sq, sq]
+
+    x, y = randrange(0, sq, cell), randrange(0, sq, cell)
+    apple = randrange(0, sq, cell), randrange(0, sq, cell)
+    length = 1
+    snake = [(x, y)]
+    dx, dy = 0, 0
+    fps = 5
+
+    pygame.init()
+    screen = pygame.display.set_mode(SIZE)
+    clock = pygame.time.Clock()
+
+    running = True
+    while running:
+        screen.fill((0, 0, 0))
+        [(pygame.draw.rect(screen, (0, 255, 0), (i, j, cell, cell))) for i, j in snake]
+        pygame.draw.rect(screen, (255, 0, 0), (*apple, cell, cell))
+
+        key = pygame.key.get_pressed()
+        if key[pygame.K_w]:
+            dx, dy = 0, -1
+        if key[pygame.K_a]:
+            dx, dy = -1, 0
+        if key[pygame.K_s]:
+            dx, dy = 0, 1
+        if key[pygame.K_d]:
+            dx, dy = 1, 0
 
 
+        x += dx * cell
+        y += dy * cell
+        snake.append((x, y))
+        snake = snake[-length:]
 
+        if snake[-1] == apple:
+            apple = randrange(0, sq, cell), randrange(0, sq, cell)
+            length += 1
+
+        if x < 0 or x > sq - cell or y < 0 or y > sq - cell:
+            menu()
+        if len(snake) != len(set(snake)):
+            menu()
+
+        pygame.display.flip()
+        clock.tick(fps)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit()
+    pygame.quit()
 
 
 
