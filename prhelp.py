@@ -19,8 +19,9 @@ def game1(self):
     if __name__ == '__main__':
         pygame.init()
         pygame.display.set_caption('snich')
-        size = width, height = 900, 700
+        size = width, height = 800, 700
         screen = pygame.display.set_mode(size)
+        screen.fill((0, 0, 0))
 
         krest_nol = Krest_nol(a, b)
         running = True
@@ -30,11 +31,9 @@ def game1(self):
                     running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     krest_nol.get_click(event.pos)
-            screen.fill((0, 0, 0))
             krest_nol.render(screen)
             pygame.display.flip()
         pygame.quit()
-
 
 
 class Button:
@@ -94,9 +93,13 @@ class Krest_nol:
         self.width = width
         self.height = height
         self.krest_nol = [[0] * width for _ in range(height)]
-        self.left = 10
-        self.top = 10
-        self.cell_size = 30
+        self.left = 145
+        self.top = 90
+        self.cell_size = 170
+        self.field = [['', '', ''],
+                 ['', '', ''],
+                 ['', '', '']]
+        self.counter = 1
 
     def set_view(self, left, top, cell_size):
         self.left = left
@@ -119,8 +122,24 @@ class Krest_nol:
 
     def on_click(self, cell_coords):
         screen = pygame.display.set_mode(size)
-        pygame.draw.rect(screen, (255, 0, 0), (cell_coords[0], cell_coords[1], 100, 100))
-        pygame.display.update()
+        # pygame.draw.rect(screen, (255, 0, 0), (cell_coords[0], cell_coords[1], 100, 100))
+        # pygame.display.update()
+        print(cell_coords)
+        x_x = cell_coords[0] + 1
+        y_y = cell_coords[1] + 1
+
+        if self.field[y_y - 1][x_x - 1] == '' and self.counter % 2 != 0:
+            self.field[y_y - 1][x_x - 1] = 'k'
+            print(self.field)
+            pygame.draw.line(screen, (0, 255, 0), (145 + 170*(x_x - 1), 90 + 170*(y_y - 1)), (145+170*(x_x), 90+170*(y_y)), 6)
+            pygame.draw.line(screen, (0, 255, 0), (145 + 170*(x_x - 1), 90 + 170*(y_y)), (145+170*(x_x), 90+170*(y_y - 1)), 6)
+            self.counter += 1
+
+        if self.field[y_y - 1][x_x - 1] == '' and self.counter % 2 == 0:
+            self.field[y_y - 1][x_x - 1] = 'n'
+            print(self.field)
+            pygame.draw.circle(screen, (255, 200, 0), (230 + 170*(x_x - 1), 175 + 170*(y_y - 1)), 85)
+            self.counter += 1
 
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
