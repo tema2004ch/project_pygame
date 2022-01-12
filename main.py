@@ -91,7 +91,10 @@ def puzzle():
             dx, dy = 0, 1
         if key[pygame.K_d]:
             dx, dy = 1, 0
-
+        if key[pygame.K_SPACE]:
+            Pause()
+            break
+        #баг после отжатия паузы нет яблок
 
         x += dx * cell
         y += dy * cell
@@ -104,8 +107,10 @@ def puzzle():
 
         if x < 0 or x > sq - cell or y < 0 or y > sq - cell:
             menu()
+            # gameover
         if len(snake) != len(set(snake)):
             menu()
+            # gameover
 
         pygame.display.flip()
         clock.tick(fps)
@@ -113,8 +118,58 @@ def puzzle():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
+
     pygame.quit()
 
+
+def Pause():
+    pygame.init()
+    screen = pygame.display.set_mode(size)
+    start = False
+
+
+    continue_button = Button(width - 400, 100, 276, 50, (255, 0, 0), 0, 'Calibri', 50, 'Продолжить')
+    restart_button = Button(width - 400, 175, 276, 50, (255, 0, 0), 0, 'Calibri', 50, 'Заново')
+    exit_button = Button(width - 400, 250, 276, 50, (255, 0, 0), 0, 'Calibri', 50, 'Выход')
+
+    screen.blit(background, (0, 0))
+    continue_button.process_draw(screen)
+    restart_button.process_draw(screen)
+    exit_button.process_draw(screen)
+    while not start:
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos
+                if x >= continue_button.x and x <= continue_button.x + continue_button.width and y >= continue_button.y and y <= continue_button.y + continue_button.height:
+                    start = True
+                if x >= restart_button.x and x <= restart_button.x + restart_button.width and y >= restart_button.y and y <= restart_button.y + restart_button.height:
+                    puzzle()
+                if x >= exit_button.x and x <= exit_button.x + exit_button.width and y >= exit_button.y and y <= exit_button.y + exit_button.height:
+                    menu()
+            elif event.type == pygame.MOUSEMOTION:
+                x, y = event.pos
+                if x >= continue_button.x and x <= continue_button.x + continue_button.width and y >= continue_button.y and y <= continue_button.y + continue_button.height:
+                    continue_button.border = 5
+                    continue_button.process_draw(screen)
+                elif x >= restart_button.x and x <= restart_button.x + restart_button.width and y >= restart_button.y and y <= restart_button.y + restart_button.height:
+                    restart_button.border = 5
+                    restart_button.process_draw(screen)
+                elif x >= exit_button.x and x <= exit_button.x + exit_button.width and y >= exit_button.y and y <= exit_button.y + exit_button.height:
+                    exit_button.border = 5
+                    exit_button.process_draw(screen)
+                else:
+                    continue_button.border = 0
+                    continue_button.process_draw(screen)
+                    restart_button.border = 0
+                    restart_button.process_draw(screen)
+                    exit_button.border = 0
+                    exit_button.process_draw(screen)
+
+
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+            pygame.display.flip()
 
 
 if __name__ == '__main__':
