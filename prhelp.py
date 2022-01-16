@@ -97,8 +97,8 @@ class Krest_nol:
         self.top = 90
         self.cell_size = 170
         self.field = [['', '', ''],
-                 ['', '', ''],
-                 ['', '', '']]
+                      ['', '', ''],
+                      ['', '', '']]
         self.counter = 1
 
     def set_view(self, left, top, cell_size):
@@ -134,12 +134,74 @@ class Krest_nol:
             pygame.draw.line(screen, (0, 255, 0), (145 + 170*(x_x - 1), 90 + 170*(y_y - 1)), (145+170*(x_x), 90+170*(y_y)), 6)
             pygame.draw.line(screen, (0, 255, 0), (145 + 170*(x_x - 1), 90 + 170*(y_y)), (145+170*(x_x), 90+170*(y_y - 1)), 6)
             self.counter += 1
+            '''win'''
+            if self.counter >= 6:
+                if self.field[0][0] == 'k':
+                    if (self.field[0][1] == self.field[0][2] == 'k') or (self.field[1][0] == self.field[2][0] == 'k') or (self.field[1][1] == self.field[2][2] == 'k'):
+                        print('WIî11iiiiiiiiiiinnnn')
+                        if self.field[0][1] == self.field[0][2] == 'k':
+                            pygame.draw.line(screen, (255, 0, 0), (230, 175), (570, 175), 15)
+
+                        if self.field[1][0] == self.field[2][0] == 'k':
+                            pygame.draw.line(screen, (255, 0, 0), (230, 175), (230, 515), 15)
+
+                        if self.field[1][1] == self.field[2][2] == 'k':
+                            pygame.draw.line(screen, (255, 0, 0), (230, 175), (570, 515), 15)
+
+                if self.field[2][2] == 'k':
+                    if (self.field[2][1] == self.field[2][0] == 'k') or (self.field[0][2] == self.field[1][2] == 'k'):
+                        print('WIî11iiiiiiiiiiinnnn')
+                        if self.field[2][1] == self.field[2][0] == 'k':
+                            pygame.draw.line(screen, (255, 0, 0), (230, 515), (570, 515), 15)
+
+                        if self.field[0][2] == self.field[1][2] == 'k':
+                            pygame.draw.line(screen, (255, 0, 0), (570, 175), (570, 515), 15)
+
+                if self.field[1][1] == 'k':
+                    if (self.field[1][0] == self.field[1][2] == 'k') or (self.field[0][1] == self.field[2][1] == 'k'):
+                        print('WIî11iiiiiiiiiiinnnn')
+                        if self.field[1][0] == self.field[1][2] == 'k':
+                            pygame.draw.line(screen, (255, 0, 0), (230, 345), (570, 345), 15)
+
+                        if self.field[0][1] == self.field[2][1] == 'k':
+                            pygame.draw.line(screen, (255, 0, 0), (400, 175), (400, 515), 15)
 
         if self.field[y_y - 1][x_x - 1] == '' and self.counter % 2 == 0:
             self.field[y_y - 1][x_x - 1] = 'n'
             print(self.field)
             pygame.draw.circle(screen, (255, 200, 0), (230 + 170*(x_x - 1), 175 + 170*(y_y - 1)), 85)
             self.counter += 1
+
+            if self.counter >= 6:
+                if self.field[0][0] == 'n':
+                    if (self.field[0][1] == self.field[0][2] == 'n') or (self.field[1][0] == self.field[2][0] == 'n') or (self.field[1][1] == self.field[2][2] == 'n'):
+                        print('yoyoyoyoyoyoyoyoyoyoyoy')
+                        if self.field[0][1] == self.field[0][2] == 'n':
+                            pygame.draw.line(screen, (255, 125, 0), (230, 175), (570, 175), 15)
+
+                        if self.field[1][0] == self.field[2][0] == 'n':
+                            pygame.draw.line(screen, (255, 125, 0), (230, 175), (230, 515), 15)
+
+                        if self.field[1][1] == self.field[2][2] == 'n':
+                            pygame.draw.line(screen, (255, 125, 0), (230, 175), (570, 515), 15)
+
+                if self.field[2][2] == 'n':
+                    if (self.field[2][1] == self.field[2][0] == 'n') or (self.field[0][2] == self.field[1][2] == 'n'):
+                        print('yoyoyoyoyoyoyoyoyoyoyoy')
+                        if self.field[2][1] == self.field[2][0] == 'n':
+                            pygame.draw.line(screen, (255, 125, 0), (230, 515), (570, 515), 15)
+
+                        if self.field[0][2] == self.field[1][2] == 'n':
+                            pygame.draw.line(screen, (255, 125, 0), (570, 175), (570, 515), 15)
+
+                if self.field[1][1] == 'n':
+                    if (self.field[1][0] == self.field[1][2] == 'n') or (self.field[0][1] == self.field[2][1] == 'n'):
+                        print('yoyoyoyoyoyoyoyoyoyoyoy')
+                        if self.field[1][0] == self.field[1][2] == 'n':
+                            pygame.draw.line(screen, (255, 125, 0), (230, 345), (570, 345), 15)
+
+                        if self.field[0][1] == self.field[2][1] == 'n':
+                            pygame.draw.line(screen, (255, 125, 0), (400, 175), (400, 515), 15)
 
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
