@@ -100,6 +100,7 @@ class Krest_nol:
                       ['', '', ''],
                       ['', '', '']]
         self.counter = 1
+        self.game_end = 0
 
     def set_view(self, left, top, cell_size):
         self.left = left
@@ -128,6 +129,9 @@ class Krest_nol:
         x_x = cell_coords[0] + 1
         y_y = cell_coords[1] + 1
 
+        if self.game_end == 1:
+            menu()
+
         if self.field[y_y - 1][x_x - 1] == '' and self.counter % 2 != 0:
             self.field[y_y - 1][x_x - 1] = 'k'
             print(self.field)
@@ -139,6 +143,9 @@ class Krest_nol:
                 if self.field[0][0] == 'k':
                     if (self.field[0][1] == self.field[0][2] == 'k') or (self.field[1][0] == self.field[2][0] == 'k') or (self.field[1][1] == self.field[2][2] == 'k'):
                         print('WIî11iiiiiiiiiiinnnn')
+
+                        self.game_end = 1
+
                         if self.field[0][1] == self.field[0][2] == 'k':
                             pygame.draw.line(screen, (255, 0, 0), (230, 175), (570, 175), 15)
 
@@ -151,6 +158,9 @@ class Krest_nol:
                 if self.field[2][2] == 'k':
                     if (self.field[2][1] == self.field[2][0] == 'k') or (self.field[0][2] == self.field[1][2] == 'k'):
                         print('WIî11iiiiiiiiiiinnnn')
+
+                        self.game_end = 1
+
                         if self.field[2][1] == self.field[2][0] == 'k':
                             pygame.draw.line(screen, (255, 0, 0), (230, 515), (570, 515), 15)
 
@@ -160,6 +170,9 @@ class Krest_nol:
                 if self.field[1][1] == 'k':
                     if (self.field[1][0] == self.field[1][2] == 'k') or (self.field[0][1] == self.field[2][1] == 'k'):
                         print('WIî11iiiiiiiiiiinnnn')
+
+                        self.game_end = 1
+
                         if self.field[1][0] == self.field[1][2] == 'k':
                             pygame.draw.line(screen, (255, 0, 0), (230, 345), (570, 345), 15)
 
@@ -176,6 +189,8 @@ class Krest_nol:
                 if self.field[0][0] == 'n':
                     if (self.field[0][1] == self.field[0][2] == 'n') or (self.field[1][0] == self.field[2][0] == 'n') or (self.field[1][1] == self.field[2][2] == 'n'):
                         print('yoyoyoyoyoyoyoyoyoyoyoy')
+                        self.game_end = 1
+
                         if self.field[0][1] == self.field[0][2] == 'n':
                             pygame.draw.line(screen, (255, 125, 0), (230, 175), (570, 175), 15)
 
@@ -188,6 +203,8 @@ class Krest_nol:
                 if self.field[2][2] == 'n':
                     if (self.field[2][1] == self.field[2][0] == 'n') or (self.field[0][2] == self.field[1][2] == 'n'):
                         print('yoyoyoyoyoyoyoyoyoyoyoy')
+                        self.game_end = 1
+
                         if self.field[2][1] == self.field[2][0] == 'n':
                             pygame.draw.line(screen, (255, 125, 0), (230, 515), (570, 515), 15)
 
@@ -197,6 +214,8 @@ class Krest_nol:
                 if self.field[1][1] == 'n':
                     if (self.field[1][0] == self.field[1][2] == 'n') or (self.field[0][1] == self.field[2][1] == 'n'):
                         print('yoyoyoyoyoyoyoyoyoyoyoy')
+                        self.game_end = 1
+
                         if self.field[1][0] == self.field[1][2] == 'n':
                             pygame.draw.line(screen, (255, 125, 0), (230, 345), (570, 345), 15)
 
