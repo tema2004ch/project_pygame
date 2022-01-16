@@ -9,10 +9,6 @@ a = 3
 b = 3
 
 background = pygame.image.load("img/bg.png")
-kr = pygame.image.load("img/krestik.png")
-nol = pygame.image.load("img/nolik.png")
-
-rect = kr.get_rect()
 
 
 def game1(self):
@@ -123,8 +119,6 @@ class Krest_nol:
 
     def on_click(self, cell_coords):
         screen = pygame.display.set_mode(size)
-        # pygame.draw.rect(screen, (255, 0, 0), (cell_coords[0], cell_coords[1], 100, 100))
-        # pygame.display.update()
         print(cell_coords)
         x_x = cell_coords[0] + 1
         y_y = cell_coords[1] + 1
