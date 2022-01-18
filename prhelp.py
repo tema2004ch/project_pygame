@@ -12,7 +12,7 @@ background = pygame.image.load("img/bg.png")
 def game1(self):
     if __name__ == '__main__':
         pygame.init()
-        pygame.display.set_caption('snich')
+        pygame.display.set_caption('КРЕСТИКИ-ШАРИКИ')
         size = width, height = 800, 700
         screen = pygame.display.set_mode(size)
         screen.fill((0, 0, 0))
@@ -199,11 +199,12 @@ class Button:
 
 def menu():
     pygame.init()
+    pygame.display.set_caption('МЕНЮ')
     screen = pygame.display.set_mode(size)
     gameover = False
-    start_button = Button(200, 200, 300, 50, (203, 190, 181), 0, 'Arial', 40, '          Начало')
-    start_button1 = Button(200, 275, 300, 50, (203, 190, 181), 0, 'Arial', 40, ' Крестики-шарики')
-    exit_button = Button(200, 350, 300, 50, (203, 190, 181), 0, 'Arial', 40, '          Выход')
+    start_button = Button(200, 200, 370, 50, (203, 190, 181), 0, 'Arial', 40, '          Начало')
+    start_button1 = Button(200, 275, 370, 50, (203, 190, 181), 0, 'Arial', 40, ' Крестики-шарики')
+    exit_button = Button(200, 350, 370, 50, (203, 190, 181), 0, 'Arial', 40, '          Выход')
     while not gameover:
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
