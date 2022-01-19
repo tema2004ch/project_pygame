@@ -2,11 +2,25 @@ import pygame
 import sys
 from random import randrange
 
+pygame.init()
 size = width, height = 800, 700
 black = 0, 0, 0
 white = 255, 255, 255
-
 background = pygame.image.load("img/bg.png")
+
+pygame.mixer.music.load('img/excuse.ogg')
+
+pygame.mixer.music.play()
+
+sound_vill = pygame.mixer.Sound('img/villager.ogg')
+
+sound_dam = pygame.mixer.Sound('img/damage.ogg')
+
+sound_death = pygame.mixer.Sound('img/level.ogg')
+
+sound_eat = pygame.mixer.Sound('img/eat.ogg')
+
+sound_op = pygame.mixer.Sound('img/open.ogg')
 
 
 def game1(self):
@@ -17,9 +31,16 @@ def game1(self):
         screen = pygame.display.set_mode(size)
         screen.fill((0, 0, 0))
 
+
+
         krest_nol = Krest_nol(3, 3)
         running = True
+
         while running:
+
+            key = pygame.key.get_pressed()
+            if key[pygame.K_SPACE]:
+                Pause2()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -66,10 +87,13 @@ class Krest_nol:
         return cell_x, cell_y
 
     def on_click(self, cell_coords):
+        pause_flag = 1
         screen = pygame.display.set_mode(size)
         print(cell_coords)
         x_x = cell_coords[0] + 1
         y_y = cell_coords[1] + 1
+
+
 
         if self.game_end == 1:
             game1(screen)
@@ -77,6 +101,9 @@ class Krest_nol:
         if self.field[y_y - 1][x_x - 1] == '' and self.counter % 2 != 0:
             self.field[y_y - 1][x_x - 1] = 'k'
             print(self.field)
+
+            sound_dam.play()
+
             pygame.draw.line(screen, (0, 255, 0), (145 + 170*(x_x - 1), 90 + 170*(y_y - 1)), (145+170*(x_x), 90+170*(y_y)), 6)
             pygame.draw.line(screen, (0, 255, 0), (145 + 170*(x_x - 1), 90 + 170*(y_y)), (145+170*(x_x), 90+170*(y_y - 1)), 6)
             self.counter += 1
@@ -127,6 +154,9 @@ class Krest_nol:
         if self.field[y_y - 1][x_x - 1] == '' and self.counter % 2 == 0:
             self.field[y_y - 1][x_x - 1] = 'n'
             print(self.field)
+
+            sound_dam.play()
+
             pygame.draw.circle(screen, (255, 200, 0), (230 + 170*(x_x - 1), 175 + 170*(y_y - 1)), 85)
             self.counter += 1
 
@@ -196,13 +226,13 @@ class Button:
         screen.blit(ts, (self.x - 1, self.y))
 
 
-
 def menu():
     pygame.init()
+    pause_flag = 0
     pygame.display.set_caption('МЕНЮ')
     screen = pygame.display.set_mode(size)
     gameover = False
-    start_button = Button(200, 200, 370, 50, (203, 190, 181), 0, 'Arial', 40, '          Начало')
+    start_button = Button(200, 200, 370, 50, (203, 190, 181), 0, 'Arial', 40, '       Червячок')
     start_button1 = Button(200, 275, 370, 50, (203, 190, 181), 0, 'Arial', 40, ' Крестики-шарики')
     exit_button = Button(200, 350, 370, 50, (203, 190, 181), 0, 'Arial', 40, '          Выход')
     while not gameover:
@@ -211,8 +241,18 @@ def menu():
                 x, y = event.pos
                 if x >= start_button.x and x <= start_button.x + start_button.width and y >= start_button.y and y <= start_button.y + start_button.height:
                     gameover = True
+                    pygame.mixer.music.stop()
+                    sound_op.play()
+                    pygame.mixer.music.load('img/puz.mp3')
+
+                    pygame.mixer.music.play()
                     puzzle()
                 elif x >= start_button1.x and x <= start_button1.x + start_button1.width and y >= start_button1.y and y <= start_button1.y + start_button1.height:
+                    pygame.mixer.music.stop()
+                    sound_op.play()
+                    pygame.mixer.music.load('img/mus.ogg')
+
+                    pygame.mixer.music.play()
                     game1(screen)
 
                 elif x >= exit_button.x and x <= exit_button.x + exit_button.width and y >= exit_button.y and y <= exit_button.y + exit_button.height:
@@ -247,16 +287,16 @@ def menu():
     sys.exit()
 
 def puzzle():
-    sq = 800
+    pause_flag = 0
     cell = 25
-    SIZE = [sq, sq]
+    SIZE = [800, 700]
 
-    x, y = randrange(0, sq, cell), randrange(0, sq, cell)
-    apple = randrange(0, sq, cell), randrange(0, sq, cell)
+    x, y = randrange(0, 800, cell), randrange(0, 700, cell)
+    apple = randrange(0, 800, cell), randrange(0, 700, cell)
     length = 1
     snake = [(x, y)]
     dx, dy = 0, 0
-    fps = 5
+    fps = 15
 
     pygame.init()
     screen = pygame.display.set_mode(SIZE)
@@ -265,7 +305,8 @@ def puzzle():
     running = True
     while running:
         screen.fill((0, 0, 0))
-        [(pygame.draw.rect(screen, (0, 255, 0), (i, j, cell, cell))) for i, j in snake]
+        pygame.draw.rect(screen, (10, 200, 55), (10, 10, 780, 680))
+        [(pygame.draw.rect(screen, (255, 125, 125), (i, j, cell, cell))) for i, j in snake]
         pygame.draw.rect(screen, (255, 0, 0), (*apple, cell, cell))
 
         key = pygame.key.get_pressed()
@@ -287,13 +328,22 @@ def puzzle():
         snake = snake[-length:]
 
         if snake[-1] == apple:
-            apple = randrange(0, sq, cell), randrange(0, sq, cell)
+            apple = randrange(0, 800, cell), randrange(0, 700, cell)
             length += 1
+            sound_eat.play()
 
-        if x < 0 or x > sq - cell or y < 0 or y > sq - cell:
+        if x < 0 or x > 800 - cell or y < 0 or y > 700 - cell:
+            sound_death.play()
+            pygame.mixer.music.load('img/excuse.ogg')
+
+            pygame.mixer.music.play()
             menu()
             # gameover
         if len(snake) != len(set(snake)):
+            sound_death.play()
+            pygame.mixer.music.load('img/excuse.ogg')
+
+            pygame.mixer.music.play()
             menu()
             # gameover
 
@@ -307,15 +357,16 @@ def puzzle():
     pygame.quit()
 
 
+
 def Pause():
     pygame.init()
     screen = pygame.display.set_mode(size)
     start = False
 
 
-    continue_button = Button(width - 400, 100, 276, 50, (203, 190, 181), 0, 'Calibri', 50, 'Продолжить')
-    restart_button = Button(width - 400, 175, 276, 50, (203, 190, 181), 0, 'Calibri', 50, 'Заново')
-    exit_button = Button(width - 400, 250, 276, 50, (203, 190, 181), 0, 'Calibri', 50, 'Выход')
+    continue_button = Button(width - 400, 100, 320, 50, (203, 190, 181), 0, 'Calibri', 50, 'Продолжить')
+    restart_button = Button(width - 400, 175, 320, 50, (203, 190, 181), 0, 'Calibri', 50, 'Заново')
+    exit_button = Button(width - 400, 250, 320, 50, (203, 190, 181), 0, 'Calibri', 50, 'Выход')
 
     screen.blit(background, (0, 0))
     continue_button.process_draw(screen)
@@ -326,10 +377,16 @@ def Pause():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = event.pos
                 if x >= continue_button.x and x <= continue_button.x + continue_button.width and y >= continue_button.y and y <= continue_button.y + continue_button.height:
+                    sound_op.play()
                     start = True
                 if x >= restart_button.x and x <= restart_button.x + restart_button.width and y >= restart_button.y and y <= restart_button.y + restart_button.height:
+                    sound_op.play()
                     puzzle()
                 if x >= exit_button.x and x <= exit_button.x + exit_button.width and y >= exit_button.y and y <= exit_button.y + exit_button.height:
+                    sound_op.play()
+                    pygame.mixer.music.load('img/excuse.ogg')
+
+                    pygame.mixer.music.play()
                     menu()
             elif event.type == pygame.MOUSEMOTION:
                 x, y = event.pos
@@ -349,6 +406,59 @@ def Pause():
                     continue_button.border = 0
                     continue_button.color = (203,190,181)
                     continue_button.process_draw(screen)
+                    restart_button.border = 0
+                    restart_button.color = (203,190,181)
+                    restart_button.process_draw(screen)
+                    exit_button.border = 0
+                    exit_button.color = (203,190,181)
+                    exit_button.process_draw(screen)
+
+
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+            pygame.display.flip()
+
+def Pause2():
+    pygame.init()
+    screen = pygame.display.set_mode(size)
+    start = False
+
+    restart_button = Button(width - 400, 175, 276, 50, (203, 190, 181), 0, 'Calibri', 50, 'Заново')
+    exit_button = Button(width - 400, 250, 276, 50, (203, 190, 181), 0, 'Calibri', 50, 'Выход')
+
+    screen.blit(background, (0, 0))
+    restart_button.process_draw(screen)
+    exit_button.process_draw(screen)
+    while not start:
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos
+                if x >= restart_button.x and x <= restart_button.x + restart_button.width and y >= restart_button.y and y <= restart_button.y + restart_button.height:
+                    sound_op.play()
+                    pygame.mixer.music.load('img/mus.ogg')
+
+                    pygame.mixer.music.play()
+                    game1(screen)
+                if x >= exit_button.x and x <= exit_button.x + exit_button.width and y >= exit_button.y and y <= exit_button.y + exit_button.height:
+                    pygame.mixer.music.stop()
+                    sound_op.play()
+                    pygame.mixer.music.load('img/excuse.ogg')
+
+                    pygame.mixer.music.play()
+                    menu()
+            elif event.type == pygame.MOUSEMOTION:
+                x, y = event.pos
+                if x >= restart_button.x and x <= restart_button.x + restart_button.width and y >= restart_button.y and y <= restart_button.y + restart_button.height:
+                    restart_button.border = 5
+                    restart_button.color = (255, 255, 255)
+                    restart_button.process_draw(screen)
+                elif x >= exit_button.x and x <= exit_button.x + exit_button.width and y >= exit_button.y and y <= exit_button.y + exit_button.height:
+                    exit_button.border = 5
+                    exit_button.color = (255, 255, 255)
+                    exit_button.process_draw(screen)
+                else:
+
                     restart_button.border = 0
                     restart_button.color = (203,190,181)
                     restart_button.process_draw(screen)
