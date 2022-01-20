@@ -22,6 +22,8 @@ sound_eat = pygame.mixer.Sound('img/eat.ogg')
 
 sound_op = pygame.mixer.Sound('img/open.ogg')
 
+sound_win = pygame.mixer.Sound('img/kr_win.mp3')
+
 
 def game1(self):
     if __name__ == '__main__':
@@ -118,12 +120,15 @@ class Krest_nol:
 
                         if self.field[0][1] == self.field[0][2] == 'k':
                             pygame.draw.line(screen, (255, 0, 0), (230, 175), (570, 175), 15)
+                            sound_win.play()
 
                         if self.field[1][0] == self.field[2][0] == 'k':
                             pygame.draw.line(screen, (255, 0, 0), (230, 175), (230, 515), 15)
+                            sound_win.play()
 
                         if self.field[1][1] == self.field[2][2] == 'k':
                             pygame.draw.line(screen, (255, 0, 0), (230, 175), (570, 515), 15)
+                            sound_win.play()
 
                 if self.field[2][2] == 'k':
                     if (self.field[2][1] == self.field[2][0] == 'k') or (self.field[0][2] == self.field[1][2] == 'k'):
@@ -134,12 +139,14 @@ class Krest_nol:
 
                         if self.field[2][1] == self.field[2][0] == 'k':
                             pygame.draw.line(screen, (255, 0, 0), (230, 515), (570, 515), 15)
+                            sound_win.play()
 
                         if self.field[0][2] == self.field[1][2] == 'k':
                             pygame.draw.line(screen, (255, 0, 0), (570, 175), (570, 515), 15)
+                            sound_win.play()
 
                 if self.field[1][1] == 'k':
-                    if (self.field[1][0] == self.field[1][2] == 'k') or (self.field[0][1] == self.field[2][1] == 'k'):
+                    if (self.field[1][0] == self.field[1][2] == 'k') or (self.field[0][1] == self.field[2][1] == 'k') or (self.field[2][0] == self.field[0][2] == 'k'):
                         print('WIî11iiiiiiiiiiinnnn')
 
                         self.game_end = 1
@@ -147,9 +154,15 @@ class Krest_nol:
 
                         if self.field[1][0] == self.field[1][2] == 'k':
                             pygame.draw.line(screen, (255, 0, 0), (230, 345), (570, 345), 15)
+                            sound_win.play()
 
                         if self.field[0][1] == self.field[2][1] == 'k':
                             pygame.draw.line(screen, (255, 0, 0), (400, 175), (400, 515), 15)
+                            sound_win.play()
+
+                        if self.field[2][0] == self.field[0][2] == 'k':
+                            pygame.draw.line(screen, (255, 0, 0), (230, 515), (570, 175), 15)
+                            sound_win.play()
 
         if self.field[y_y - 1][x_x - 1] == '' and self.counter % 2 == 0:
             self.field[y_y - 1][x_x - 1] = 'n'
@@ -169,12 +182,15 @@ class Krest_nol:
 
                         if self.field[0][1] == self.field[0][2] == 'n':
                             pygame.draw.line(screen, (255, 125, 0), (230, 175), (570, 175), 15)
+                            sound_win.play()
 
                         if self.field[1][0] == self.field[2][0] == 'n':
                             pygame.draw.line(screen, (255, 125, 0), (230, 175), (230, 515), 15)
+                            sound_win.play()
 
                         if self.field[1][1] == self.field[2][2] == 'n':
                             pygame.draw.line(screen, (255, 125, 0), (230, 175), (570, 515), 15)
+                            sound_win.play()
 
                 if self.field[2][2] == 'n':
                     if (self.field[2][1] == self.field[2][0] == 'n') or (self.field[0][2] == self.field[1][2] == 'n'):
@@ -184,21 +200,29 @@ class Krest_nol:
 
                         if self.field[2][1] == self.field[2][0] == 'n':
                             pygame.draw.line(screen, (255, 125, 0), (230, 515), (570, 515), 15)
+                            sound_win.play()
 
                         if self.field[0][2] == self.field[1][2] == 'n':
                             pygame.draw.line(screen, (255, 125, 0), (570, 175), (570, 515), 15)
+                            sound_win.play()
 
                 if self.field[1][1] == 'n':
-                    if (self.field[1][0] == self.field[1][2] == 'n') or (self.field[0][1] == self.field[2][1] == 'n'):
+                    if (self.field[1][0] == self.field[1][2] == 'n') or (self.field[0][1] == self.field[2][1] == 'n') or (self.field[2][0] == self.field[0][2] == 'n'):
                         print('yoyoyoyoyoyoyoyoyoyoyoy')
                         self.game_end = 1
                         self.who = 'n'
 
                         if self.field[1][0] == self.field[1][2] == 'n':
                             pygame.draw.line(screen, (255, 125, 0), (230, 345), (570, 345), 15)
+                            sound_win.play()
 
                         if self.field[0][1] == self.field[2][1] == 'n':
                             pygame.draw.line(screen, (255, 125, 0), (400, 175), (400, 515), 15)
+                            sound_win.play()
+
+                        if self.field[2][0] == self.field[0][2] == 'n':
+                            pygame.draw.line(screen, (255, 0, 0), (230, 515), (570, 175), 15)
+                            sound_win.play()
 
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
